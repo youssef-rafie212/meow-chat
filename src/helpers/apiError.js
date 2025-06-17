@@ -2,14 +2,8 @@ class ApiError {
     GetCode(key) {
         let code = "";
         switch (key) {
-            case "success":
-                code = 200;
-                break;
             case "fail":
                 code = 400;
-                break;
-            case "needActive":
-                code = 203;
                 break;
             case "unauthorized":
                 code = 401;
@@ -31,7 +25,7 @@ class ApiError {
                 break;
 
             default:
-                code = 200;
+                code = 500;
                 break;
         }
 

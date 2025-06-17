@@ -13,7 +13,7 @@ export const createChat = async (req, res, next) => {
 
         await responseHandler(res, "created", "ChatCreated", chat);
     } catch (err) {
-        await errorHandler(res, "fail", "OperationFailed");
+        await errorHandler(res, "exception", "OperationFailed");
     }
 };
 
@@ -50,7 +50,7 @@ export const getAllChatsForUser = async (req, res, next) => {
 
         await responseHandler(res, "success", "ChatsRetrived", chats);
     } catch (err) {
-        await errorHandler(res, "fail", "OperationFailed");
+        await errorHandler(res, "exception", "OperationFailed");
     }
 };
 
@@ -69,6 +69,6 @@ export const getChatWithId = async (req, res, next) => {
 
         await responseHandler(res, "success", "ChatRetrived", chat);
     } catch {
-        await errorHandler(res, "fail", "OperationFailed");
+        await errorHandler(res, "exception", "OperationFailed");
     }
 };

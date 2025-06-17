@@ -18,6 +18,6 @@ export const createMessage = async (req, res, next) => {
 
         await responseHandler(res, "created", "MessageCreated", message);
     } catch (err) {
-        await errorHandler(res, "fail", "OperationFailed");
+        await errorHandler(res, "exception", "OperationFailed");
     }
 };

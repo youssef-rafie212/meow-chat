@@ -13,6 +13,6 @@ export const createUser = async (req, res, next) => {
 
         await responseHandler(res, "created", "UserCreated", user);
     } catch (err) {
-        await errorHandler(res, "fail", "OperationFailed");
+        await errorHandler(res, "exception", "OperationFailed");
     }
 };
