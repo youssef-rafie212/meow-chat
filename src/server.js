@@ -17,6 +17,9 @@ dotenv.config({ path: "./config.env" });
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
+// Express App
+const app = express();
+
 // i18n
 i18n.configure({
     locales: ["en", "ar"],
@@ -27,8 +30,11 @@ i18n.configure({
     updateFiles: false,
 });
 
-// Express App
-const app = express();
+app.use((req, res, next) => {
+    i18n.setLocale(req.headers.lang || "en");
+    return next();
+});
+
 app.use(i18n.init);
 app.use(cors({ origin: "http://127.0.0.1:5500" }));
 app.use(express.json());

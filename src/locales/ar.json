@@ -1,7 +1,5 @@
 {
-    "notFound": "المستند غير موجود",
-    "opFailed": "فشلت العملية",
-    "internalError": "خطأ داخلي",
-    "badRequest": "طلب سيء",
-    "opSuccess": "نجحت العملية"
+    "ChatNotFound": "الشات غير موجود",
+    "IdNotProvided": "ال ID مطلوب",
+    "OperationFailed": "فشلت العمليه"
 }

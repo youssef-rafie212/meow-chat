@@ -1,6 +1,8 @@
 import Chat from "../models/chatModel.js";
 // import redisClient from "../redisClient.js";
 import { responseObj } from "../helpers/responseObj.js";
+import { errorHandler } from "../helpers/errorHandler.js";
+import { responseHandler } from "../helpers/responseHandler.js";
 
 export const createChat = async (req, res, next) => {
     let response;
@@ -64,21 +66,17 @@ export const getChatWithId = async (req, res, next) => {
     try {
         const chatId = req.params.chatId;
         if (!chatId) {
-            response = responseObj(400, req.__("badRequest"));
-            return res.send(response);
+            errorHandler(res, "fail", "IdNotProvided");
         }
 
         const chat = await Chat.findById(chatId);
 
         if (!chat) {
-            response = responseObj(404, req.__("notFound"));
-            return res.send(response);
+            errorHandler(res, "notFound", "ChatNotFound");
         }
 
-        response = responseObj(200, req.__("opSuccess"), { chat });
-        return res.send(response);
+        responseHandler(res, "success", "chat retrived", chat);
     } catch {
-        response = responseObj(500, req.__("internalError"));
-        res.send(response);
+        errorHandler(res, "fail", "OperationFailed");
     }
 };

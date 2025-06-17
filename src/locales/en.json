@@ -1,7 +1,5 @@
 {
-    "notFound": "document not found",
-    "opFailed": "operation failed",
-    "internalError": "internal server error",
-    "badRequest": "bad request",
-    "opSuccess": "operation succeded"
+    "ChatNotFound": "Chat not found",
+    "IdNotProvided": "ID not provided",
+    "OperationFailed": "Operation failed"
 }
