@@ -1,5 +1,5 @@
 import Chat from "../models/chatModel.js";
-import redisClient from "../redisClient.js";
+// import redisClient from "../redisClient.js";
 import { responseObj } from "../helpers/responseObj.js";
 
 export const createChat = async (req, res, next) => {
