@@ -1,5 +1,10 @@
 {
     "ChatNotFound": "Chat not found",
     "IdNotProvided": "ID not provided",
-    "OperationFailed": "Operation failed"
+    "OperationFailed": "Operation failed",
+    "ChatCreated": "Chat created",
+    "MessageCreated": "Message created",
+    "UserCreated": "User created",
+    "ChatRetrived": "Chat retrived",
+    "ChatsRetrived": "Chats retrived"
 }

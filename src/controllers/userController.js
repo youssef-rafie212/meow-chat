@@ -1,8 +1,8 @@
 import User from "../models/userModel.js";
-import { responseObj } from "../helpers/responseObj.js";
+import { errorHandler } from "../helpers/errorHandler.js";
+import { responseHandler } from "../helpers/responseHandler.js";
 
 export const createUser = async (req, res, next) => {
-    let response;
     try {
         const { username, password, phone } = req.body;
         const user = await User.create({
@@ -11,10 +11,8 @@ export const createUser = async (req, res, next) => {
             phone,
         });
 
-        response = responseObj(201, req.__("opSuccess"), { user });
-        res.send(response);
+        await responseHandler(res, "created", "UserCreated", user);
     } catch (err) {
-        response = responseObj(400, req.__("opFailed"));
-        res.send(response);
+        await errorHandler(res, "fail", "OperationFailed");
     }
 };

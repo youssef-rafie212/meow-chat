@@ -6,7 +6,7 @@ class ApiResponse {
                 code = 200;
                 break;
             case "created":
-                code = 200;
+                code = 201;
                 break;
             case "noContent":
                 code = 204;

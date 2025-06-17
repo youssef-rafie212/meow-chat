@@ -1,12 +1,14 @@
 import Message from "../models/messageModel.js";
 import Chat from "../models/chatModel.js";
-import { responseObj } from "../helpers/responseObj.js";
+import { errorHandler } from "../helpers/errorHandler.js";
+import { responseHandler } from "../helpers/responseHandler.js";
 
 export const createMessage = async (req, res, next) => {
-    let response;
     try {
         const dataBody = req.body;
         const message = await Message.create(dataBody);
+
+        // in real scenarios we should check if chat actually exists (im lazy rn)
 
         await Chat.findByIdAndUpdate(
             dataBody.chatId,
@@ -14,10 +16,8 @@ export const createMessage = async (req, res, next) => {
             { new: true, upsert: true }
         );
 
-        response = responseObj(201, req.__("opSuccess"), { message });
-        res.send(response);
+        await responseHandler(res, "created", "MessageCreated", message);
     } catch (err) {
-        response = responseObj(400, req.__("opFailed"));
-        res.send(response);
+        await errorHandler(res, "fail", "OperationFailed");
     }
 };

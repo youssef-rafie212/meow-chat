@@ -1,5 +1,10 @@
 {
-    "ChatNotFound": "الشات غير موجود",
+    "ChatNotFound": "المحادثة غير موجودة",
     "IdNotProvided": "ال ID مطلوب",
-    "OperationFailed": "فشلت العمليه"
+    "OperationFailed": "فشلت العمليه",
+    "ChatCreated": "تم انشاء المحادثة",
+    "MessageCreated": "تم انشاء الرساله",
+    "UserCreated": "تم انشاء المستخدم",
+    "ChatRetrived": "تم استرجاع المحادثة",
+    "ChatsRetrived": "تم استرجاع المحادثات"
 }

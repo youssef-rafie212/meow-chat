@@ -1,11 +1,9 @@
 import Chat from "../models/chatModel.js";
 // import redisClient from "../redisClient.js";
-import { responseObj } from "../helpers/responseObj.js";
 import { errorHandler } from "../helpers/errorHandler.js";
 import { responseHandler } from "../helpers/responseHandler.js";
 
 export const createChat = async (req, res, next) => {
-    let response;
     try {
         const { title, participants } = req.body;
         const chat = await Chat.create({
@@ -13,21 +11,17 @@ export const createChat = async (req, res, next) => {
             participants,
         });
 
-        response = responseObj(201, req.__("opSuccess"), { chat });
-        res.send(response);
+        await responseHandler(res, "created", "ChatCreated", chat);
     } catch (err) {
-        response = responseObj(400, req.__("opFailed"));
-        res.send(response);
+        await errorHandler(res, "fail", "OperationFailed");
     }
 };
 
 export const getAllChatsForUser = async (req, res, next) => {
-    let response;
     try {
         const userId = req.params.userId;
         if (!userId) {
-            response = responseObj(400, req.__("badRequest"));
-            return res.send(response);
+            return await errorHandler(res, "fail", "IdNotProvided");
         }
 
         const page = parseInt(req.query.page) || 1;
@@ -37,6 +31,7 @@ export const getAllChatsForUser = async (req, res, next) => {
 
         let chats;
 
+        // not using cache as we have no update/delete endpoints and the result will always (until expiration) exist in the cache
         // const cached = await redisClient.get(key);
 
         // if (cached) {
@@ -53,30 +48,27 @@ export const getAllChatsForUser = async (req, res, next) => {
 
         // await redisClient.setEx(key, 600, JSON.stringify(chats));
 
-        response = responseObj(200, req.__("opSuccess"), { chats });
-        return res.send(response);
+        await responseHandler(res, "success", "ChatsRetrived", chats);
     } catch (err) {
-        response = responseObj(500, req.__("internalError"));
-        res.send(response);
+        await errorHandler(res, "fail", "OperationFailed");
     }
 };
 
 export const getChatWithId = async (req, res, next) => {
-    let response;
     try {
         const chatId = req.params.chatId;
         if (!chatId) {
-            errorHandler(res, "fail", "IdNotProvided");
+            return await errorHandler(res, "fail", "IdNotProvided");
         }
 
         const chat = await Chat.findById(chatId);
 
         if (!chat) {
-            errorHandler(res, "notFound", "ChatNotFound");
+            return await errorHandler(res, "notFound", "ChatNotFound");
         }
 
-        responseHandler(res, "success", "chat retrived", chat);
+        await responseHandler(res, "success", "ChatRetrived", chat);
     } catch {
-        errorHandler(res, "fail", "OperationFailed");
+        await errorHandler(res, "fail", "OperationFailed");
     }
 };
