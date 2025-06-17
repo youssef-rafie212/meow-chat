@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Meow Chat 🐱</title>
+        <script src="https://cdn.socket.io/4.7.2/socket.io.min.js"></script>
+        <style>
+            #log div {
+                margin: 4px 0;
+            }
+        </style>
+    </head>
+    <body>
+        <h2>Meow Chat - Client 🐱</h2>
+
+        <input type="text" id="userIdInput" placeholder="Enter User ID" />
+        <button onclick="connectSocket()">Connect</button>
+
+        <hr />
+
+        <input type="text" id="roomInput" placeholder="Room ID" />
+        <button onclick="joinRoom()">Join Room</button>
+        <button onclick="leaveRoom()">Leave Room</button>
+
+        <hr />
+
+        <input type="text" id="messageInput" placeholder="Enter Message" />
+        <button onclick="sendMessageToRoom()">Send Message</button>
+
+        <hr />
+
+        <button onclick="disconnect()">Disconnect</button>
+
+        <h3>Log</h3>
+        <div id="log"></div>
+
+        <script>
+            let socket;
+
+            function connectSocket() {
+                const userId = document.getElementById("userIdInput").value;
+
+                if (!userId) {
+                    log("❌ User ID is required to connect");
+                    return;
+                }
+
+                socket = io("http://localhost:3000", {
+                    auth: {
+                        userId: userId,
+                    },
+                });
+
+                socket.on("connect", () => {
+                    log(`✅ Connected as ${userId} (socket ID: ${socket.id})`);
+                });
+
+                socket.on("disconnect", () => {
+                    log("🔌 Disconnected from server");
+                });
+
+                socket.on("message", ({ from, text }) => {
+                    const localUserId =
+                        document.getElementById("userIdInput").value;
+                    const position = from === localUserId ? "right" : "left";
+                    log(`💬 ${from}: ${text} (position: ${position})`);
+                });
+
+                socket.on("connect_error", (err) => {
+                    log(`❌ Connection error: ${err.message}`);
+                });
+            }
+
+            function joinRoom() {
+                const room = document.getElementById("roomInput").value;
+
+                if (!socket || !socket.connected) {
+                    log("❌ Connect first before joining a room");
+                    return;
+                }
+
+                socket.emit("join", { room });
+                log(`🚪 Joined room: ${room}`);
+            }
+
+            function leaveRoom() {
+                const room = document.getElementById("roomInput").value;
+
+                if (!socket || !socket.connected) {
+                    log("❌ Connect first before leaving a room");
+                    return;
+                }
+
+                socket.emit("leave", { room });
+                log(`🚪 Left room: ${room}`);
+            }
+
+            function sendMessageToRoom() {
+                const room = document.getElementById("roomInput").value;
+                const text = document.getElementById("messageInput").value;
+
+                if (!socket || !socket.connected) {
+                    log("❌ Connect first before sending a message");
+                    return;
+                }
+
+                if (!text) {
+                    log("❌ Message is empty");
+                    return;
+                }
+
+                socket.emit("message", { text, room });
+            }
+
+            function disconnect() {
+                if (socket) {
+                    socket.disconnect();
+                    log("🔌 Disconnected manually");
+                } else {
+                    log("❌ Not connected");
+                }
+            }
+
+            function log(message) {
+                const div = document.createElement("div");
+                div.textContent = message;
+                document.getElementById("log").appendChild(div);
+            }
+        </script>
+    </body>
+</html>
