@@ -14,10 +14,10 @@ export const createMessage = async (req, res, next) => {
             { new: true, upsert: true }
         );
 
-        response = responseObj(201, "message created", { message });
+        response = responseObj(201, req.__("opSuccess"), { message });
         res.send(response);
     } catch (err) {
-        response = responseObj(400, "message creation failed");
+        response = responseObj(400, req.__("opFailed"));
         res.send(response);
     }
 };

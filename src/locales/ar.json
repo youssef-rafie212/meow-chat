@@ -1,4 +1,7 @@
 {
     "notFound": "المستند غير موجود",
-    "failed": "فشلت العملية"
+    "opFailed": "فشلت العملية",
+    "internalError": "خطأ داخلي",
+    "badRequest": "طلب سيء",
+    "opSuccess": "نجحت العملية"
 }

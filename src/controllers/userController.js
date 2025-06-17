@@ -11,10 +11,10 @@ export const createUser = async (req, res, next) => {
             phone,
         });
 
-        response = responseObj(201, "user created", { user });
+        response = responseObj(201, req.__("opSuccess"), { user });
         res.send(response);
     } catch (err) {
-        response = responseObj(400, "user creation failed");
+        response = responseObj(400, req.__("opFailed"));
         res.send(response);
     }
 };

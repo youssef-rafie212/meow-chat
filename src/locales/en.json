@@ -1,4 +1,7 @@
 {
     "notFound": "document not found",
-    "failed": "operation failed"
+    "opFailed": "operation failed",
+    "internalError": "internal server error",
+    "badRequest": "bad request",
+    "opSuccess": "operation succeded"
 }
