@@ -65,6 +65,10 @@
                     log(`💬 ${from}: ${text} (position: ${position})`);
                 });
 
+                socket.on("onlineNotification", ({ from, text }) => {
+                    log(`🔔 notification from ${from}: ${text}`);
+                });
+
                 socket.on("connect_error", (err) => {
                     log(`❌ Connection error: ${err.message}`);
                 });
